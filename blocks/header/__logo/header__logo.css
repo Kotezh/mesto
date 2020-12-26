@@ -6,17 +6,14 @@
 
 @media screen and (max-width: 920px) {
   .header__logo {
-    
     margin-left: 27px;
   }
-  }
-    
+}
 
 @media screen and (max-width: 625px) {
-.header__logo {
-  min-width: 104px;
-  min-height: 25px;
- 
-}
+  .header__logo {
+    min-width: 104px;
+    min-height: 25px;
+  }
 }
   

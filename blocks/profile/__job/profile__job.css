@@ -1,17 +1,14 @@
 .profile__job {
-  font-family: Inter;
   font-weight: 400;
   font-size: 18px;
   line-height: 1.22;
   margin: 0;
   padding: 0;
- 
 }
 
 @media screen and (max-width: 625px) {
   .profile__job {
     font-size: 14px;
     line-height: 1.21;
-  
   }
 }

@@ -1,13 +1,19 @@
 .element__field {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   margin: 0 21px 25px 21px;
   padding: 0;
 }
 
 @media screen and (max-width: 425px){
   .element__field {
-margin-right: 15px;
+    margin-right: 15px;
   }
 }
