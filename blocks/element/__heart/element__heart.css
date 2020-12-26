@@ -1,0 +1,16 @@
+.element__heart {
+  min-width: 21px;
+  min-height: 18px;
+  fill: none;
+  transition: opacity 200ms ease-in-out, fill 200ms ease-in-out;
+
+}
+
+.element__heart:hover {
+  opacity: 0.5;
+}
+
+
+.element__heart:hover path{
+  fill: black;
+}
