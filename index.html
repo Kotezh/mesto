@@ -35,7 +35,7 @@
     <footer class="footer">
       <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
     </footer>
-    
+
     <section class="popup popup_type_edit-profile">
       <div class="popup__container">
         <h2 class="popup__title">Редактировать профиль</h2>
@@ -52,15 +52,17 @@
         <h2 class="popup__title">Новое место</h2>
         <button type="reset" aria-label="Close" class="popup__close popup__close_type_add-place"></button>
         <form class="popup__form popup__form_type_add-place" name="edit-form" action="#" method="post">
-          <input name="place-name" id="name" type="text" class="popup__field popup__field_place-name" placeholder="Название">
-          <input name="place-link" id="job" type="text" class="popup__field popup__field_place-link" placeholder="Ссылка на картинку">
+          <input name="place-name" id="name" type="text" class="popup__field popup__field_place-name"
+            placeholder="Название">
+          <input name="place-link" id="job" type="text" class="popup__field popup__field_place-link"
+            placeholder="Ссылка на картинку">
           <input name="submit" type="submit" class="popup__btn-submit" value="Создать">
         </form>
       </div>
     </section>
     <section class="popup popup_type_image">
       <div class="popup__image-wrapper">
-        <figure class= popup__figure>
+        <figure class=popup__figure>
           <img class="popup__image" src="" alt="Изображение места">
           <figcaption class="popup__image-caption"></figcaption>
         </figure>
@@ -71,7 +73,7 @@
   <template id="new-element">
     <li class="element">
       <div class="element__image-wrapper">
-        <a class="element__popup" href="#"><img class="element__image" alt="" src="#"/></a>
+        <a class="element__popup" href="#"><img class="element__image" alt="Изображение" src="" /></a>
       </div>
       <div class="element__field">
         <h2 class="element__title"></h2>
@@ -79,9 +81,9 @@
       </div>
       <button type="button" class="element__trash trash" aria-label="Trash"></button>
     </li>
-</template>
-<script src="./scripts/index.js">
-</script>
+  </template>
+  <script src="./scripts/index.js">
+  </script>
 </body>
 
 </html>

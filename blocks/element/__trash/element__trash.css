@@ -11,6 +11,6 @@
 }
 
 .element__trash:hover {
+  cursor: pointer;
   opacity: 0.6;
-
 }

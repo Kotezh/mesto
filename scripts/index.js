@@ -38,17 +38,17 @@ const addButton = document.querySelector('.profile__btn-add');
 const likeButton = document.querySelectorAll('.heart');
 const imageLink = document.querySelector('.element__image');
 
-let profileName = document.querySelector('.profile__name');
-let profileJob = document.querySelector('.profile__job');
-let elementImage = document.querySelector('.element__image');
-let elementImageCaption = document.querySelector('.element__title');
+const profileName = document.querySelector('.profile__name');
+const profileJob = document.querySelector('.profile__job');
+const elementImage = document.querySelector('.element__image');
+const elementImageCaption = document.querySelector('.element__title');
 
-let nameInput = document.querySelector('.popup__field_name');
-let jobInput = document.querySelector('.popup__field_job');
-let placeNameInput = document.querySelector('.popup__field_place-name');
-let placeLinkInput = document.querySelector('.popup__field_place-link');
-let popupFullImage = document.querySelector('.popup__image');
-let popupFullImageCaption = document.querySelector('.popup__image-caption');
+const nameInput = document.querySelector('.popup__field_name');
+const jobInput = document.querySelector('.popup__field_job');
+const placeNameInput = document.querySelector('.popup__field_place-name');
+const placeLinkInput = document.querySelector('.popup__field_place-link');
+const popupFullImage = document.querySelector('.popup__image');
+const popupFullImageCaption = document.querySelector('.popup__image-caption');
 
 const formEditProfile = document.querySelector('.popup__form_type_edit-profile');
 const formAddPlace = document.querySelector('.popup__form_type_add-place');
@@ -98,7 +98,7 @@ function removePopupImage(evt){
 
 function addOriginalPlaces(place){
     const placeTemplate = document.querySelector('#new-element').content;
-    const element = placeTemplate.cloneNode(true);
+    let element = placeTemplate.cloneNode(true);
 
     element.querySelector('.element__image').src = place.link;
     element.querySelector('.element__title').textContent = place.name;
@@ -124,7 +124,7 @@ function addNewPlace(evt){
     evt.preventDefault();
     
     const placeTemplate = document.querySelector('#new-element').content;
-    const newElement = placeTemplate.cloneNode(true);
+    let newElement = placeTemplate.cloneNode(true);
     
     newElement.querySelector('.element__image').src = placeLinkInput.value;
     newElement.querySelector('.element__title').textContent = placeNameInput.value;
@@ -145,24 +145,28 @@ function addNewPlace(evt){
 
 editButton.addEventListener('click', addPopupEdit);
 closeButtonEdit.addEventListener('click', removePopupEdit);
+
 popupEditProfile.addEventListener('click', (event) => {
   if(event.target === event.currentTarget){
     removePopupEdit();
   }
 });
+
 formEditProfile.addEventListener('submit', submitFormEdit);
 
 addButton.addEventListener('click', addPopupNewPlace);
 closeButtonAdd.addEventListener('click', removePopupNewPlace);
+
 popupNewPlace.addEventListener('click', (event) => {
   if(event.target === event.currentTarget){
     removePopupNewPlace();
   }
 });
+
 formAddPlace.addEventListener('submit', addNewPlace);
 
-
 closeButtonImage.addEventListener('click', removePopupImage);
+
 popupOpenedImage.addEventListener('click', (event) => {
   if(event.target === event.currentTarget){
     removePopupImage();

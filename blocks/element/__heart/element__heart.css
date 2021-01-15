@@ -8,5 +8,6 @@
 }
 
 .element__heart:hover {
+  cursor: pointer;
   opacity: 0.5;
 }
