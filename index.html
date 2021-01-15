@@ -29,79 +29,57 @@
       </section>
       <section class="elements">
         <ul class="elements__list">
-          <li class="element ">
-            <div class="element__image-wrapper">
-              <img class="element__image" alt="Палаван" src="./blocks/element/__image/Palawan.jpg">
-            </div>
-            <div class="element__field">
-              <h2 class="element__title">Палаван</h2>
-              <button type="button" aria-label="Like" class="heart element__heart"></button>
-            </div>
-          </li>
-          <li class="element ">
-            <div class="element__image-wrapper">
-              <img class="element__image" alt="Андаманские острова" src="./blocks/element/__image/AndamanIslands.jpeg">
-            </div>
-            <div class="element__field">
-              <h2 class="element__title">Андаманские острова</h2>
-              <button type="button" aria-label="Like" class="heart element__heart"></button>
-            </div>
-          </li>
-          <li class="element ">
-            <div class="element__image-wrapper">
-              <img class="element__image" alt="Меконг" src="./blocks/element/__image/Mekong-1.jpg">
-            </div>
-            <div class="element__field">
-              <h2 class="element__title">Меконг</h2>
-              <button type="button" aria-label="Like" class="heart element__heart"></button>
-            </div>
-          </li>
-          <li class="element ">
-            <div class="element__image-wrapper">
-              <img class="element__image" alt="Карачаевск" src="./blocks/element/__image/Karachaevsk.jpg">
-            </div>
-            <div class="element__field">
-              <h2 class="element__title">Карачаевск</h2>
-              <button type="button" aria-label="Like" class="heart element__heart"></button>
-            </div>
-          </li>
-          <li class="element ">
-            <div class="element__image-wrapper">
-              <img class="element__image" alt="Эльбрус" src="./blocks/element/__image/Elbrus-1.jpg">
-            </div>
-            <div class="element__field">
-              <h2 class="element__title">Гора Эльбрус</h2>
-              <button type="button" aria-label="Like" class="heart element__heart"></button>
-            </div>
-          </li>
-          <li class="element ">
-            <div class="element__image-wrapper">
-              <img class="element__image" alt="Домбай" src="./blocks/element/__image/Dombai-1.jpg">
-            </div>
-            <div class="element__field">
-              <h2 class="element__title">Домбай</h2>
-              <button type="button" aria-label="Like" class="heart element__heart"></button>
-            </div>
-          </li>
         </ul>
       </section>
     </main>
     <footer class="footer">
       <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
     </footer>
-    <section class="popup">
+    
+    <section class="popup popup_type_edit-profile">
       <div class="popup__container">
         <h2 class="popup__title">Редактировать профиль</h2>
-        <button type="button" aria-label="Close" class="popup__close"></button>
-        <form class="popup__wrapper" name="edit-form" action="#" method="post">
+        <button type="reset" aria-label="Close" class="popup__close popup__close_type_edit-profile"></button>
+        <form class="popup__form popup__form_type_edit-profile" name="edit-form" action="#" method="post">
           <input name="name" id="name" type="text" class="popup__field popup__field_name">
           <input name="job" id="job" type="text" class="popup__field popup__field_job">
           <input name="submit" type="submit" class="popup__btn-submit" value="Сохранить">
         </form>
       </div>
     </section>
+    <section class="popup popup_type_add-place">
+      <div class="popup__container">
+        <h2 class="popup__title">Новое место</h2>
+        <button type="reset" aria-label="Close" class="popup__close popup__close_type_add-place"></button>
+        <form class="popup__form popup__form_type_add-place" name="edit-form" action="#" method="post">
+          <input name="place-name" id="name" type="text" class="popup__field popup__field_place-name" placeholder="Название">
+          <input name="place-link" id="job" type="text" class="popup__field popup__field_place-link" placeholder="Ссылка на картинку">
+          <input name="submit" type="submit" class="popup__btn-submit" value="Создать">
+        </form>
+      </div>
+    </section>
+    <section class="popup popup_type_image">
+      <div class="popup__image-wrapper">
+        <figure class= popup__figure>
+          <img class="popup__image" src="" alt="Изображение места">
+          <figcaption class="popup__image-caption"></figcaption>
+        </figure>
+        <button type="reset" aria-label="Close" class="popup__close popup__close_type_image"></button>
+      </div>
+    </section>
   </div>
-
+  <template id="new-element">
+    <li class="element">
+      <div class="element__image-wrapper">
+        <a class="element__popup" href="#"><img class="element__image" alt="" src="#"/></a>
+      </div>
+      <div class="element__field">
+        <h2 class="element__title"></h2>
+        <button type="button" aria-label="Like" class="heart element__heart"></button>
+      </div>
+      <button type="button" class="element__trash trash" aria-label="Trash"></button>
+    </li>
+</template>
 <script src="./scripts/index.js">
 </script>
 </body>
