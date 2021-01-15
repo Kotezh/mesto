@@ -1,7 +1,7 @@
 .popup_type_edit-profile {
   display: -webkit-box;
   display: -ms-flexbox;
-  display: flex; 
+  display: flex;
   visibility: hidden;
   opacity: 0;
   -webkit-transition: visibility 400ms 0ms, opacity 400ms 0ms linear;
