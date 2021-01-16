@@ -100,15 +100,15 @@ function clickOverlay(event, popup) {
 }
 
 function clickOverlayEdited(){
-  clickOverlay(evt, popupEditProfile);
+  clickOverlay(event, popupEditProfile);
 }
 
 function clickOverlayAdded(){
-  clickOverlay(evt, popupNewPlace);
+  clickOverlay(event, popupNewPlace);
 }
 
 function clickOverlayOpened(){
-  clickOverlay(evt, popupOpenedImage);
+  clickOverlay(event, popupOpenedImage);
 }
 
 function createElement(place){
