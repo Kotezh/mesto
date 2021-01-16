@@ -93,29 +93,18 @@ function toggleLike(evt){
   evt.target.classList.toggle('heart_active');
 }
 
-function clickOverlay(event, popup) {
+function clickOverlay(event) {
     if(event.target === event.currentTarget){
-      closePopup(popup);
+      closePopup(event.currentTarget);
     }
-}
-
-function clickOverlayEdited(){
-  clickOverlay(event, popupEditProfile);
-}
-
-function clickOverlayAdded(){
-  clickOverlay(event, popupNewPlace);
-}
-
-function clickOverlayOpened(){
-  clickOverlay(event, popupOpenedImage);
 }
 
 function createElement(place){
   const placeTemplate = document.querySelector('#new-element').content;
   let element = placeTemplate.cloneNode(true);
-  element.querySelector('.element__image').src = place.link;
-  element.querySelector('.element__image').alt = place.name;
+  const elementImage = element.querySelector('.element__image');
+  elementImage.src = place.link;
+  elementImage.alt = place.name;
   element.querySelector('.element__title').textContent = place.name;
   element.querySelector('.heart').addEventListener('click', toggleLike);
   element.querySelector('.trash').addEventListener('click', removePlace);
@@ -155,7 +144,7 @@ addButton.addEventListener('click', addPopupNewPlace);
 closeButtonAdd.addEventListener('click', closePopupNewPlace);
 formAddPlace.addEventListener('submit', addNewPlace);
 closeButtonImage.addEventListener('click', closePopupImage);
-popupEditProfile.addEventListener('click', clickOverlayEdited);
-popupNewPlace.addEventListener('click', clickOverlayAdded);
-popupOpenedImage.addEventListener('click', clickOverlayOpened);
+popupEditProfile.addEventListener('click', clickOverlay);
+popupNewPlace.addEventListener('click', clickOverlay);
+popupOpenedImage.addEventListener('click', clickOverlay);
 
