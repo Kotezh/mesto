@@ -1,10 +1,9 @@
 .element__heart {
-  min-width: 21px;
-  min-height: 18px;
-  fill: none;
-  -webkit-transition: opacity 200ms ease-in-out, fill 200ms ease-in-out;
-  -o-transition: opacity 200ms ease-in-out, fill 200ms ease-in-out;
-  transition: opacity 200ms ease-in-out, fill 200ms ease-in-out;
+  -webkit-transition: opacity 200ms ease-in-out;
+  -o-transition: opacity 200ms ease-in-out;
+  transition: opacity 200ms ease-in-out;
+  overflow: hidden;
+  margin: 0 ;
 }
 
 .element__heart:hover {

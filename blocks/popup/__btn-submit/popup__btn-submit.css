@@ -12,11 +12,12 @@
   -webkit-transition: background-color 200ms ease-in-out;
   -o-transition: background-color 200ms ease-in-out;
   transition: background-color 200ms ease-in-out;
+  cursor: pointer;
+  border-radius: 2px;
 }
 
 
   .popup__btn-submit:hover {
-    cursor: pointer;
     background-color: rgba(0, 0, 0, 0.8);
   }
 
