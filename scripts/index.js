@@ -78,7 +78,7 @@ function addPopupEditProfile() {
   //evt.preventDefault();
   addPlaceholder();
   addPopup(popupEditProfile);
-  
+
 }
 
 function addPopupNewPlace(evt) {
@@ -110,9 +110,9 @@ function closeClickOverlay(event) {
 }
 
 function closeEsc(evt) {
-  if (evt.keyCode === 27) {
-    const popupOpened = document.querySelector('.popup_opened');
-    popupOpened.remove();
+  const key = evt.keyCode;
+  if (key === 27) {
+    closePopup(document.querySelector('.popup_opened'))
   }
 }
 
@@ -166,96 +166,7 @@ addButton.addEventListener('click', addPopupNewPlace);
 closeButtonAdd.addEventListener('click', closePopupNewPlace);
 formAddPlace.addEventListener('submit', addNewPlace);
 closeButtonImage.addEventListener('click', closePopupImage);
-popupEditProfile.addEventListener('click', closeClickOverlay);
-popupNewPlace.addEventListener('click', closeClickOverlay);
-popupOpenedImage.addEventListener('click', closeClickOverlay);
-
-
-
-
-const showInputError = (inputSelector) => {
-  const errorClass = formSelector.querySelector(`.${inputSelector.id}-error`);
-  inputSelector.classList.add('popup__input_type_error');
-  errorClass.textContent = inputSelector.validationMessage;
-  errorClass.classList.add('popup__error_visible');
-};
-
-const hideInputError = (inputSelector) => {
-  const errorClass = formSelector.querySelector(`.${inputSelector.id}-error`);
-  inputSelector.classList.remove('popup__input_type_error');
-  errorClass.classList.remove('popup__error_visible');
-  errorClass.textContent = '';
-};
-
-const checkInputValidity = (inputSelector) => {
-  if (!inputSelector.validity.valid) {
-    showInputError(inputSelector);
-  } else {
-    hideInputError(inputSelector);
-  }
-};
-
-function hasInvalidInput(inputList) {
-  return inputList.some((inputSelector) => {
-    return !inputSelector.validity.valid;
-  });
-}
-
-function activateButton(){
-  submitButtonSelector.classList.remove('popup__btn-submit_inactive');
-  submitButtonSelector.disabled = false;
-}
-
-function inactivateButton(){
-  submitButtonSelector.classList.add('popup__btn-submit_inactive');
-  submitButtonSelector.disabled = true;
-};
-
-function toggleButtonState() {
-  if (hasInvalidInput()) {
-    inactivateButton();
-  } else {
-    activateButton();
-  }
-}
-
-const setEventListeners = () => {
-  const inputList = Array.from(formSelector.querySelectorAll('.popup__input'));
-  toggleButtonState()
-  inputList.forEach((inputElement) => {
-    inputSelector.addEventListener('input', () => {
-      checkInputValidity(inputElement);
-      toggleButtonState()
-    });
-  });
-};
-
-
-
-const enableValidation = () => {
-  formSelector.addEventListener('submit', (evt) => {
-      evt.preventDefault();
-      inactivateButton();
-    });
-    setEventListeners();
-};
-
-const disableInputError =() => {
-  inputList.forEach((inputSelector) => {
-    hideInputError(inputSelector);
-  })
-}
-
-
-enableValidation({
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__btn-submit',
-  inactiveButtonClass: 'popup__button_inactive',
-  inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__error_visible'
-});
-
-
-
+popupEditProfile.addEventListener('mouseup', closeClickOverlay);
+popupNewPlace.addEventListener('mouseup', closeClickOverlay);
+popupOpenedImage.addEventListener('mouseup', closeClickOverlay);
 

@@ -35,6 +35,7 @@
 @import url('../blocks/popup/__close/_type/popup__close_type_edit-profile.css');
 @import url('../blocks/popup/__close/_type/popup__close_type_image.css');
 @import url('../blocks/popup/__form/popup__form.css');
+@import url('../blocks/popup/__form-field/popup__form-field.css');
 @import url('../blocks/popup/__form/_type/popup__form_type_add-place.css');
 @import url('../blocks/popup/__form/_type/popup__form_type_edit-profile.css');
 @import url('../blocks/popup/__title/popup__title.css');
