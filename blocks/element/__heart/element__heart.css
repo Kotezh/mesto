@@ -3,7 +3,7 @@
   -o-transition: opacity 200ms ease-in-out;
   transition: opacity 200ms ease-in-out;
   overflow: hidden;
-  margin: 0 ;
+  margin: 0;
 }
 
 .element__heart:hover {
