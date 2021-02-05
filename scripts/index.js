@@ -28,7 +28,9 @@ const initialCards = [
 const popupEditProfile = document.querySelector(".popup_type_edit-profile");
 const popupNewPlace = document.querySelector(".popup_type_add-place");
 const popupOpenedImage = document.querySelector(".popup_type_image");
-const closeButtonEdit = document.querySelector(".popup__close_type_edit-profile");
+const closeButtonEdit = document.querySelector(
+  ".popup__close_type_edit-profile"
+);
 const closeButtonAdd = document.querySelector(".popup__close_type_add-place");
 const closeButtonImage = document.querySelector(".popup__close_type_image");
 const editButton = document.querySelector(".profile__btn-edit");
@@ -41,10 +43,13 @@ const placeNameInput = document.querySelector(".popup__input_type_place-name");
 const placeLinkInput = document.querySelector(".popup__input_type_place-link");
 const popupFullImage = document.querySelector(".popup__image");
 const popupFullImageCaption = document.querySelector(".popup__image-caption");
-const formEditProfile = document.querySelector(".popup__form_type_edit-profile");
+const formEditProfile = document.querySelector(
+  ".popup__form_type_edit-profile"
+);
 const formAddPlace = document.querySelector(".popup__form_type_add-place");
 const elementsList = document.querySelector(".elements__list");
 const placeTemplate = document.querySelector("#new-element").content;
+const submitButton = popupNewPlace.querySelector(".popup__btn-submit");
 
 function closePopup(popup) {
   popup.classList.remove("popup_opened");
@@ -76,13 +81,6 @@ function setPlaceholder() {
 function openPopupEditProfile() {
   setPlaceholder();
   openPopup(popupEditProfile);
-}
-
-function openPopupNewPlace(evt) {
-  evt.preventDefault();
-  openPopup(popupNewPlace);
-  placeNameInput.value = "";
-  placeLinkInput.value = "";
 }
 
 function submitFormEdit(evt) {
@@ -156,7 +154,17 @@ render();
 editButton.addEventListener("click", openPopupEditProfile);
 closeButtonEdit.addEventListener("click", closePopupEditProfile);
 formEditProfile.addEventListener("submit", submitFormEdit);
-addButton.addEventListener("click", openPopupNewPlace);
+addButton.addEventListener("click", () => {
+  openPopup(popupNewPlace);
+  placeNameInput.value = "";
+  placeLinkInput.value = "";
+  toggleButtonState(
+    hasInvalidInput([placeNameInput, placeLinkInput]),
+    submitButton,
+    { inactiveButtonClass: "popup__btn-submit_inactive" }
+  );
+});
+
 closeButtonAdd.addEventListener("click", closePopupNewPlace);
 formAddPlace.addEventListener("submit", addNewPlace);
 closeButtonImage.addEventListener("click", closePopupImage);
