@@ -1,3 +1,5 @@
+import {popupFullImage, popupFullImageCaption, popupOpenedImage, openPopup} from './index.js'
+
 export class Card {
   constructor(data, placeTemplate) {
     this._name = data.name;
@@ -8,7 +10,8 @@ export class Card {
   _getTemplate() {
     const place = document
       .querySelector(this._placeTemplate)
-      .textContent.querySelector(".element")
+      .content
+      .querySelector(".element")
       .cloneNode(true);
     return place;
   }
@@ -18,9 +21,6 @@ export class Card {
     this._setEventListeners();
     this._elementImage = this._element.querySelector(".element__image");
     this._elementTitle = this._element.querySelector(".element__title");
-    this._elementHeart = this._element.querySelector(".heart");
-    this._elementTrash = this._element.querySelector(".trash");
-    this._elementPopup = this._element.querySelector(".element__popup");
     this._elementImage.src = this._link;
     this._elementImage.alt = this._name;
     this._elementTitle.textContent = this._name;
@@ -28,11 +28,13 @@ export class Card {
   }
 
   _setEventListeners() {
-    this._popupCloseButton.addEventListener("click", () => {
-      this._closePopup();
-    });
-    this._elementHeart.addEventListener("click", this._toggleLike);
-    this._elementTrash.addEventListener("click", this.removePlace);
+    this._elementHeart = this._element.querySelector(".heart");
+    this._elementTrash = this._element.querySelector(".trash");
+    this._elementPopup = this._element.querySelector(".element__popup");
+    this._elementHeart.addEventListener("click", (evt) => {
+      this._toggleLike(evt)});
+    this._elementTrash.addEventListener("click", () => {
+      this._removePlace()});
     this._elementPopup.addEventListener("click", (evt) => {
       evt.preventDefault();
       openPopup(popupOpenedImage);
@@ -46,8 +48,8 @@ export class Card {
     evt.target.classList.toggle("heart_active");
   }
 
-  removePlace(evt) {
-    evt.target.closest(".element").remove();
+  _removePlace(evt) {
+    this._element.querySelector('.element__trash').closest(".element").remove();
   }
 }
 /*

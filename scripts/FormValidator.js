@@ -59,7 +59,7 @@ export class FormValidator {
       this._formElement.querySelectorAll(this._validateSettings.inputSelector)
     );
     this._buttonElement = this._formElement.querySelector(
-      this.__validateSettings.submitButtonSelector
+      this._validateSettings.submitButtonSelector
     );
 
     this._toggleButtonState();
@@ -68,7 +68,7 @@ export class FormValidator {
       inputElement.addEventListener("input", (evt) => {
         //const inputElement = evt.target;
         this._checkInputValidity(inputElement);
-        this._toggleSubmitButtonState();
+        this._toggleButtonState();
       });
     });
   }

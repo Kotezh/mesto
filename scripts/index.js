@@ -1,5 +1,5 @@
-import {Card} from './Card.js';
-import {FormValidator} from './FormValidator.js';
+import { Card } from "./Card.js";
+import { FormValidator } from "./FormValidator.js";
 
 const initialCards = [
   {
@@ -39,7 +39,7 @@ const validateSettings = {
 
 const popupEditProfile = document.querySelector(".popup_type_edit-profile");
 const popupNewPlace = document.querySelector(".popup_type_add-place");
-const popupOpenedImage = document.querySelector(".popup_type_image");
+export const popupOpenedImage = document.querySelector(".popup_type_image");
 const closeButtonEdit = document.querySelector(
   ".popup__close_type_edit-profile"
 );
@@ -53,15 +53,17 @@ const nameInput = document.querySelector(".popup__input_type_name");
 const jobInput = document.querySelector(".popup__input_type_job");
 const placeNameInput = document.querySelector(".popup__input_type_place-name");
 const placeLinkInput = document.querySelector(".popup__input_type_place-link");
-const popupFullImage = document.querySelector(".popup__image");
-const popupFullImageCaption = document.querySelector(".popup__image-caption");
+export const popupFullImage = document.querySelector(".popup__image");
+export const popupFullImageCaption = document.querySelector(
+  ".popup__image-caption"
+);
 const formEditProfile = document.querySelector(
   ".popup__form_type_edit-profile"
 );
 const formAddPlace = document.querySelector(".popup__form_type_add-place");
 const elementsList = document.querySelector(".elements__list");
-const placeTemplate = document.querySelector("#new-element").content;
 const submitButton = popupNewPlace.querySelector(".popup__btn-submit");
+const formsList = document.querySelectorAll(".popup__form");
 
 function closePopup(popup) {
   popup.classList.remove("popup_opened");
@@ -80,7 +82,7 @@ function closePopupImage(evt) {
   closePopup(popupOpenedImage);
 }
 
-function openPopup(popup) {
+export function openPopup(popup) {
   popup.classList.add("popup_opened");
   document.addEventListener("keydown", closeEsc);
 }
@@ -112,7 +114,7 @@ function closeEsc(evt) {
 }
 
 initialCards.forEach((item) => {
-  const card = new Card(item, placeTemplate);
+  const card = new Card(item, "#new-element");
   const place = card.generateCard();
   elementsList.append(place);
 });
@@ -123,13 +125,13 @@ function addNewPlace(evt) {
     name: placeNameInput.value,
     link: placeLinkInput.value,
   };
-  const newElement = new Card(data, placeTemplate);
+  const newElement = new Card(data, "#new-element");
   elementsList.prepend(newElement);
   closePopupNewPlace();
 }
 
 formsList.forEach((formElement) => {
-  const formValidator = new FormValidator(formElement, validateSettings);
+  const formValidator = new FormValidator(validateSettings, formElement);
   formValidator.enableValidation();
 });
 
@@ -154,7 +156,3 @@ popupEditProfile.addEventListener("mouseup", closeClickOverlay);
 popupNewPlace.addEventListener("mouseup", closeClickOverlay);
 popupOpenedImage.addEventListener("mouseup", closeClickOverlay);
 formAddPlace.addEventListener("submit", addNewPlace);
-
-
-
-
