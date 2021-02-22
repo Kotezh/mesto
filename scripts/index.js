@@ -1,3 +1,6 @@
+import { Card } from './Card';
+import { FormValidator } from './FormValidator';
+
 const initialCards = [
   {
     name: "Палаван",
@@ -24,6 +27,15 @@ const initialCards = [
     link: "./blocks/element/__image/Dombai-1.jpg",
   },
 ];
+
+const validateSettings = {
+  formSelector: ".popup__form",
+  inputSelector: ".popup__input",
+  submitButtonSelector: ".popup__btn-submit",
+  inactiveButtonClass: "popup__btn-submit_inactive",
+  inputErrorClass: "popup__input_type_error",
+  errorClass: "popup__error_visible",
+};
 
 const popupEditProfile = document.querySelector(".popup_type_edit-profile");
 const popupNewPlace = document.querySelector(".popup_type_add-place");
@@ -73,13 +85,9 @@ function openPopup(popup) {
   document.addEventListener("keydown", closeEsc);
 }
 
-function setPlaceholder() {
+function openPopupEditProfile() {
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
-}
-
-function openPopupEditProfile() {
-  setPlaceholder();
   openPopup(popupEditProfile);
 }
 
@@ -88,14 +96,6 @@ function submitFormEdit(evt) {
   profileName.textContent = nameInput.value;
   profileJob.textContent = jobInput.value;
   closePopup(popupEditProfile);
-}
-
-function removePlace(evt) {
-  evt.target.closest(".element").remove();
-}
-
-function toggleLike(evt) {
-  evt.target.classList.toggle("heart_active");
 }
 
 function closeClickOverlay(event) {
@@ -111,32 +111,11 @@ function closeEsc(evt) {
   }
 }
 
-function createElement(place) {
-  const element = placeTemplate.cloneNode(true);
-  const elementImage = element.querySelector(".element__image");
-  const elementTitle = element.querySelector(".element__title");
-  const elementHeart = element.querySelector(".heart");
-  const elementTrash = element.querySelector(".trash");
-  const elementPopup = element.querySelector(".element__popup");
-  elementImage.src = place.link;
-  elementImage.alt = place.name;
-  elementTitle.textContent = place.name;
-  elementHeart.addEventListener("click", toggleLike);
-  elementTrash.addEventListener("click", removePlace);
-  elementPopup.addEventListener("click", (evt) => {
-    evt.preventDefault();
-    openPopup(popupOpenedImage);
-    popupFullImage.src = place.link;
-    popupFullImage.alt = place.name;
-    popupFullImageCaption.textContent = place.name;
-  });
-  return element;
-}
-
-function render() {
-  const renderElement = initialCards.map(createElement);
-  elementsList.append(...renderElement);
-}
+initialCards.forEach((item) => {
+  const card = new Card(item, placeTemplate);
+  const place = card.generateCard();
+  elementsList.append(place);
+});
 
 function addNewPlace(evt) {
   evt.preventDefault();
@@ -144,21 +123,29 @@ function addNewPlace(evt) {
     name: placeNameInput.value,
     link: placeLinkInput.value,
   };
-  const newElement = createElement(data);
+  const newElement = new Card(data, placeTemplate);
   elementsList.prepend(newElement);
   closePopupNewPlace();
 }
 
-render();
+const setFormValidation = (formElement) => {
+  const formValidator = new FormValidator(formElement, validateSettings);
+  formValidator.enableValidation();
+};
+
+formsList.forEach((formElement) => {
+  setFormValidation(formElement);
+});
 
 editButton.addEventListener("click", openPopupEditProfile);
 closeButtonEdit.addEventListener("click", closePopupEditProfile);
 formEditProfile.addEventListener("submit", submitFormEdit);
+
 addButton.addEventListener("click", () => {
   openPopup(popupNewPlace);
   placeNameInput.value = "";
   placeLinkInput.value = "";
-  toggleButtonState(
+  _toggleButtonState(
     hasInvalidInput([placeNameInput, placeLinkInput]),
     submitButton,
     { inactiveButtonClass: "popup__btn-submit_inactive" }
@@ -166,8 +153,12 @@ addButton.addEventListener("click", () => {
 });
 
 closeButtonAdd.addEventListener("click", closePopupNewPlace);
-formAddPlace.addEventListener("submit", addNewPlace);
 closeButtonImage.addEventListener("click", closePopupImage);
 popupEditProfile.addEventListener("mouseup", closeClickOverlay);
 popupNewPlace.addEventListener("mouseup", closeClickOverlay);
 popupOpenedImage.addEventListener("mouseup", closeClickOverlay);
+formAddPlace.addEventListener("submit", addNewPlace);
+
+
+
+
