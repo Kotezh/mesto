@@ -1,5 +1,5 @@
-import Card from './Card';
-import FormValidator from './FormValidator';
+import {Card} from './Card';
+import {FormValidator} from './FormValidator';
 
 const initialCards = [
   {
@@ -128,13 +128,9 @@ function addNewPlace(evt) {
   closePopupNewPlace();
 }
 
-const setFormValidation = (formElement) => {
+formsList.forEach((formElement) => {
   const formValidator = new FormValidator(formElement, validateSettings);
   formValidator.enableValidation();
-};
-
-formsList.forEach((formElement) => {
-  setFormValidation(formElement);
 });
 
 editButton.addEventListener("click", openPopupEditProfile);
