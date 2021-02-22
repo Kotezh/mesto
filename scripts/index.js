@@ -126,7 +126,8 @@ function addNewPlace(evt) {
     link: placeLinkInput.value,
   };
   const newElement = new Card(data, "#new-element");
-  elementsList.prepend(newElement);
+  const newPlace = newElement.generateCard();
+  elementsList.prepend(newPlace);
   closePopupNewPlace();
 }
 
@@ -143,11 +144,8 @@ addButton.addEventListener("click", () => {
   openPopup(popupNewPlace);
   placeNameInput.value = "";
   placeLinkInput.value = "";
-  _toggleButtonState(
-    hasInvalidInput([placeNameInput, placeLinkInput]),
-    submitButton,
-    { inactiveButtonClass: "popup__btn-submit_inactive" }
-  );
+  submitButton.disabled = true;
+  submitButton.classList.add("popup__btn-submit_inactive");
 });
 
 closeButtonAdd.addEventListener("click", closePopupNewPlace);

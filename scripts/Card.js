@@ -1,4 +1,9 @@
-import {popupFullImage, popupFullImageCaption, popupOpenedImage, openPopup} from './index.js'
+import {
+  popupFullImage,
+  popupFullImageCaption,
+  popupOpenedImage,
+  openPopup,
+} from "./index.js";
 
 export class Card {
   constructor(data, placeTemplate) {
@@ -10,8 +15,7 @@ export class Card {
   _getTemplate() {
     const place = document
       .querySelector(this._placeTemplate)
-      .content
-      .querySelector(".element")
+      .content.querySelector(".element")
       .cloneNode(true);
     return place;
   }
@@ -32,9 +36,11 @@ export class Card {
     this._elementTrash = this._element.querySelector(".trash");
     this._elementPopup = this._element.querySelector(".element__popup");
     this._elementHeart.addEventListener("click", (evt) => {
-      this._toggleLike(evt)});
+      this._toggleLike(evt);
+    });
     this._elementTrash.addEventListener("click", () => {
-      this._removePlace()});
+      this._removePlace();
+    });
     this._elementPopup.addEventListener("click", (evt) => {
       evt.preventDefault();
       openPopup(popupOpenedImage);
@@ -49,33 +55,6 @@ export class Card {
   }
 
   _removePlace(evt) {
-    this._element.querySelector('.element__trash').closest(".element").remove();
+    this._element.querySelector(".element__trash").closest(".element").remove();
   }
 }
-/*
-function createElement(place) {
-  const element = placeTemplate.cloneNode(true);
-
-  const elementImage = element.querySelector(".element__image");
-  const elementTitle = element.querySelector(".element__title");
-  const elementHeart = element.querySelector(".heart");
-  const elementTrash = element.querySelector(".trash");
-  const elementPopup = element.querySelector(".element__popup");
-  elementImage.src = place.link;
-  elementImage.alt = place.name;
-  elementTitle.textContent = place.name;
-
-  elementHeart.addEventListener("click", toggleLike);
-  elementTrash.addEventListener("click", removePlace);
-  elementPopup.addEventListener("click", (evt) => {
-    evt.preventDefault();
-    openPopup(popupOpenedImage);
-    popupFullImage.src = place.link;
-    popupFullImage.alt = place.name;
-    popupFullImageCaption.textContent = place.name;
-  });
-
-  return element;
-}
-
-*/
