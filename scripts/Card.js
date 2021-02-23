@@ -50,11 +50,11 @@ export class Card {
     });
   }
 
-  _toggleLike(evt) {
-    evt.target.classList.toggle("heart_active");
+  _toggleLike() {
+    this._elementHeart.classList.toggle("heart_active");
   }
 
   _removePlace(evt) {
-    this._element.querySelector(".element__trash").closest(".element").remove();
+    this._element.remove();
   }
 }

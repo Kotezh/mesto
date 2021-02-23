@@ -39,10 +39,13 @@ export class FormValidator {
     });
   }
 
-  _toggleButtonState(formElement, submitButton, inactiveButtonClass) {
-    const hasErrors = !formElement.checkValidity();
-    submitButton.disabled = hasErrors;
-    submitButton.classList.toggle(inactiveButtonClass, hasErrors);
+  _toggleButtonState() {
+    const hasErrors = !this._formElement.checkValidity();
+    this._buttonElement.disabled = hasErrors;
+    this._buttonElement.classList.toggle(
+      this._validateSettings.inactiveButtonClass,
+      hasErrors
+    );
   }
 
   _setEventListeners() {
@@ -62,13 +65,13 @@ export class FormValidator {
         this._checkInputValidity(inputElement);
       });
     });
-    this._formElement.addEventListener("input", () =>
+    this._formElement.addEventListener("input", () => {
       this._toggleButtonState(
         this._formElement,
         this._buttonElement,
         this._validateSettings.inactiveButtonClass
-      )
-    );
+      );
+    });
   }
 
   enableValidation() {

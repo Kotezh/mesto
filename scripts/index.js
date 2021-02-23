@@ -1,33 +1,6 @@
 import { Card } from "./Card.js";
 import { FormValidator } from "./FormValidator.js";
 
-const initialCards = [
-  {
-    name: "Палаван",
-    link: "./blocks/element/__image/Palawan.jpg",
-  },
-  {
-    name: "Андаманские острова",
-    link: "./blocks/element/__image/AndamanIslands.jpg",
-  },
-  {
-    name: "Меконг",
-    link: "./blocks/element/__image/Mekong-1.jpg",
-  },
-  {
-    name: "Карачаевск",
-    link: "./blocks/element/__image/Karachaevsk.jpg",
-  },
-  {
-    name: "Гора Эльбрус",
-    link: "./blocks/element/__image/Elbrus-1.jpg",
-  },
-  {
-    name: "Домбай",
-    link: "./blocks/element/__image/Dombai-1.jpg",
-  },
-];
-
 const validateSettings = {
   formSelector: ".popup__form",
   inputSelector: ".popup__input",
@@ -36,7 +9,7 @@ const validateSettings = {
   inputErrorClass: "popup__input_type_error",
   errorClass: "popup__error_visible",
 };
-
+const ESC_KEYCODE = 27;
 const popupEditProfile = document.querySelector(".popup_type_edit-profile");
 const popupNewPlace = document.querySelector(".popup_type_add-place");
 export const popupOpenedImage = document.querySelector(".popup_type_image");
@@ -108,7 +81,7 @@ function closeClickOverlay(event) {
 
 function closeEsc(evt) {
   const key = evt.keyCode;
-  if (key === 27) {
+  if (key === ESC_KEYCODE) {
     closePopup(document.querySelector(".popup_opened"));
   }
 }
@@ -142,10 +115,9 @@ formEditProfile.addEventListener("submit", submitFormEdit);
 
 addButton.addEventListener("click", () => {
   openPopup(popupNewPlace);
-  placeNameInput.value = "";
-  placeLinkInput.value = "";
+  formAddPlace.reset();
   submitButton.disabled = true;
-  submitButton.classList.add("popup__btn-submit_inactive");
+  submitButton.classList.add(validateSettings.inactiveButtonClass);
 });
 
 closeButtonAdd.addEventListener("click", closePopupNewPlace);
