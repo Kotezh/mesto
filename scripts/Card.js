@@ -1,15 +1,10 @@
-import {
-  popupFullImage,
-  popupFullImageCaption,
-  popupOpenedImage,
-  openPopup,
-} from "./index.js";
 
 export class Card {
-  constructor(data, placeTemplate) {
+  constructor(data, placeTemplate, openImagePopup) {
     this._name = data.name;
     this._link = data.link;
     this._placeTemplate = placeTemplate;
+    this._openImagePopup = openImagePopup;
   }
 
   _getTemplate() {
@@ -43,10 +38,7 @@ export class Card {
     });
     this._elementPopup.addEventListener("click", (evt) => {
       evt.preventDefault();
-      openPopup(popupOpenedImage);
-      popupFullImage.src = this._link;
-      popupFullImage.alt = this._name;
-      popupFullImageCaption.textContent = this._name;
+      this._openImagePopup(this._name, this._link);
     });
   }
 

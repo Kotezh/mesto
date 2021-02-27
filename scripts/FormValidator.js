@@ -14,7 +14,7 @@ export class FormValidator {
     errorElement.classList.add(this._validateSettings.errorClass);
   }
 
-  _hideInputError = (inputElement, errorElement) => {
+  _hideInputError (inputElement, errorElement) {
     inputElement.classList.remove(this._validateSettings.inputErrorClass);
     errorElement.classList.remove(this._validateSettings.errorClass);
     errorElement.textContent = "";
@@ -55,26 +55,56 @@ export class FormValidator {
     this._buttonElement = this._formElement.querySelector(
       this._validateSettings.submitButtonSelector
     );
-    this._toggleButtonState(
-      this._formElement,
-      this._buttonElement,
-      this._validateSettings.inactiveButtonClass
-    );
+    //this._formElement.addEventListener('reset', () => {
+      //this.clearValidation();
+   // })
+    this._toggleButtonState();
     this._inputList.forEach((inputElement) => {
       inputElement.addEventListener("input", (evt) => {
         this._checkInputValidity(inputElement);
       });
     });
     this._formElement.addEventListener("input", () => {
-      this._toggleButtonState(
-        this._formElement,
-        this._buttonElement,
-        this._validateSettings.inactiveButtonClass
-      );
+      this._toggleButtonState();
     });
   }
 
   enableValidation() {
+    //this._formElement.addEventListener('submit', (evt) => {
+			//evt.preventDefault();
+      //this.clearValidation();
+		//});
     this._setEventListeners();
   }
+  
+  clearValidation() {
+		this._inputList.forEach(inputElement => {
+			this._hideInputError(inputElement);
+		})
+    //this._toggleButtonState();
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*clearValidation(){
+    this._inputsList = Array.from(this._formElement.querySelectorAll(this._validateSettings.inputSelector));
+    this._inputsList.forEach(element => {
+      element.classList.remove(this._validateSettings.inputErrorClass);
+    })
+    this._errorsList = Array.from(this._formElement.querySelectorAll(`${this._validateSettings.inputSelector}-error`));
+    this._errorsList.forEach(element => {
+      element.textContent = '';
+      element.classList.remove(this._validateSettings.errorClass);
+    })
+  }*/

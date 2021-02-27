@@ -12,7 +12,7 @@ const validateSettings = {
 const ESC_KEYCODE = 27;
 const popupEditProfile = document.querySelector(".popup_type_edit-profile");
 const popupNewPlace = document.querySelector(".popup_type_add-place");
-export const popupOpenedImage = document.querySelector(".popup_type_image");
+const popupOpenedImage = document.querySelector(".popup_type_image");
 const closeButtonEdit = document.querySelector(
   ".popup__close_type_edit-profile"
 );
@@ -26,10 +26,8 @@ const nameInput = document.querySelector(".popup__input_type_name");
 const jobInput = document.querySelector(".popup__input_type_job");
 const placeNameInput = document.querySelector(".popup__input_type_place-name");
 const placeLinkInput = document.querySelector(".popup__input_type_place-link");
-export const popupFullImage = document.querySelector(".popup__image");
-export const popupFullImageCaption = document.querySelector(
-  ".popup__image-caption"
-);
+const popupFullImage = document.querySelector(".popup__image");
+const popupFullImageCaption = document.querySelector(".popup__image-caption");
 const formEditProfile = document.querySelector(
   ".popup__form_type_edit-profile"
 );
@@ -55,7 +53,7 @@ function closePopupImage(evt) {
   closePopup(popupOpenedImage);
 }
 
-export function openPopup(popup) {
+function openPopup(popup) {
   popup.classList.add("popup_opened");
   document.addEventListener("keydown", closeEsc);
 }
@@ -64,6 +62,13 @@ function openPopupEditProfile() {
   nameInput.value = profileName.textContent;
   jobInput.value = profileJob.textContent;
   openPopup(popupEditProfile);
+}
+
+function openImagePopup(name, link) {
+  popupFullImage.src = link;
+  popupFullImage.alt = name;
+  popupFullImageCaption.textContent = name;
+  openPopup(popupOpenedImage);
 }
 
 function submitFormEdit(evt) {
@@ -87,7 +92,7 @@ function closeEsc(evt) {
 }
 
 initialCards.forEach((item) => {
-  const card = new Card(item, "#new-element");
+  const card = new Card(item, "#new-element", openImagePopup);
   const place = card.generateCard();
   elementsList.append(place);
 });
@@ -98,26 +103,32 @@ function addNewPlace(evt) {
     name: placeNameInput.value,
     link: placeLinkInput.value,
   };
-  const newElement = new Card(data, "#new-element");
+  const newElement = new Card(data, "#new-element", openImagePopup);
   const newPlace = newElement.generateCard();
   elementsList.prepend(newPlace);
   closePopupNewPlace();
 }
 
-formsList.forEach((formElement) => {
-  const formValidator = new FormValidator(validateSettings, formElement);
-  formValidator.enableValidation();
+const editFormValidator = new FormValidator(validateSettings, formEditProfile);
+const addFormValidator = new FormValidator(validateSettings, formAddPlace);
+editFormValidator.enableValidation();
+addFormValidator.enableValidation();
+
+editButton.addEventListener("click", () => {
+  //editFormValidator.clearValidation()
+  openPopupEditProfile();
 });
 
-editButton.addEventListener("click", openPopupEditProfile);
 closeButtonEdit.addEventListener("click", closePopupEditProfile);
 formEditProfile.addEventListener("submit", submitFormEdit);
 
 addButton.addEventListener("click", () => {
+  //addFormValidator.clearValidation()
   openPopup(popupNewPlace);
   formAddPlace.reset();
-  submitButton.disabled = true;
-  submitButton.classList.add(validateSettings.inactiveButtonClass);
+  addFormValidator.enableValidation();
+  //submitButton.disabled = true;
+  //submitButton.classList.add(validateSettings.inactiveButtonClass);
 });
 
 closeButtonAdd.addEventListener("click", closePopupNewPlace);
