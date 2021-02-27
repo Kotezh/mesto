@@ -111,11 +111,12 @@ function addNewPlace(evt) {
 
 const editFormValidator = new FormValidator(validateSettings, formEditProfile);
 const addFormValidator = new FormValidator(validateSettings, formAddPlace);
+
 editFormValidator.enableValidation();
 addFormValidator.enableValidation();
 
 editButton.addEventListener("click", () => {
-  //editFormValidator.clearValidation()
+  editFormValidator.clearValidation();
   openPopupEditProfile();
 });
 
@@ -123,12 +124,9 @@ closeButtonEdit.addEventListener("click", closePopupEditProfile);
 formEditProfile.addEventListener("submit", submitFormEdit);
 
 addButton.addEventListener("click", () => {
-  //addFormValidator.clearValidation()
+  addFormValidator.clearValidation();
   openPopup(popupNewPlace);
   formAddPlace.reset();
-  addFormValidator.enableValidation();
-  //submitButton.disabled = true;
-  //submitButton.classList.add(validateSettings.inactiveButtonClass);
 });
 
 closeButtonAdd.addEventListener("click", closePopupNewPlace);
