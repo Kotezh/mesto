@@ -27,12 +27,24 @@ const userInfo = new UserInfo({
 
 const handleCardClick = new PopupWithImage(".popup_type_image");
 
-const addPlace = function (data) {
-  const place = new Card(data, "#new-element", ({ name, link }) =>
+const createPlace = function (data) {
+  return new Card(data, "#new-element", ({ name, link }) =>
     handleCardClick.open({ name, link })
   ).generateCard();
-  return place;
 };
+
+const defaultCardList = new Section(
+  {
+    items: initialCards,
+    renderer: (place) => {
+      const card = createPlace(place)
+      defaultCardList.setItems(card);
+    },
+  },
+  ".elements__list"
+);
+
+defaultCardList.renderItems();
 
 const getInfo = () => {
   const { name, job } = userInfo.getUserInfo();
@@ -46,35 +58,25 @@ const popupProfile = new PopupWithForm(".popup_type_edit-profile", (data) => {
 });
 
 const popupPlace = new PopupWithForm(".popup_type_add-place", (place) => {
-  defaultCardList.addItem(addPlace(place));
+  const card = createPlace(place)
+  defaultCardList.addItem(card);
   popupPlace.close();
 });
 
-const defaultCardList = new Section(
-  {
-    items: initialCards,
-    renderer: (place) => {
-      defaultCardList.setItems(addPlace(place));
-    },
-  },
-  ".elements__list"
-);
-
-defaultCardList.renderItems();
+//popupPlace.setEventListeners();
 
 editFormValidator.enableValidation();
 addFormValidator.enableValidation();
-
 handleCardClick.setEventListeners();
 
 editButton.addEventListener("click", () => {
-  editFormValidator.clearValidation();
   popupProfile.open();
   getInfo();
+  editFormValidator.clearValidation();
 });
 
-addButton.addEventListener("click", () => {
-  addFormValidator.clearValidation();
+addButton.addEventListener("click", function (){
   popupPlace.open();
   formAddPlace.reset();
+  addFormValidator.clearValidation();
 });
