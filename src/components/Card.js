@@ -36,10 +36,10 @@ export default class Card {
       this._removePlace();
     });
     this._elementPopup.addEventListener("click", () => {
-      //evt.preventDefault();
+      evt.preventDefault();
       this._handleCardClick({
         name: this._name,
-        link: this._link
+        link: this._link,
       });
     });
   }

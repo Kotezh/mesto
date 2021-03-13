@@ -28,6 +28,7 @@ const userInfo = new UserInfo({
 const handleCardClick = new PopupWithImage(".popup_type_image");
 
 const createPlace = function (data) {
+  console.log(data);
   return new Card(data, "#new-element", ({ name, link }) =>
     handleCardClick.open({ name, link })
   ).generateCard();
@@ -37,7 +38,7 @@ const defaultCardList = new Section(
   {
     items: initialCards,
     renderer: (place) => {
-      const card = createPlace(place)
+      const card = createPlace(place);
       defaultCardList.setItems(card);
     },
   },
@@ -58,15 +59,14 @@ const popupProfile = new PopupWithForm(".popup_type_edit-profile", (data) => {
 });
 
 const popupPlace = new PopupWithForm(".popup_type_add-place", (place) => {
-  const card = createPlace(place)
+  const card = createPlace(place);
   defaultCardList.addItem(card);
   popupPlace.close();
 });
 
-//popupPlace.setEventListeners();
-
 editFormValidator.enableValidation();
 addFormValidator.enableValidation();
+
 handleCardClick.setEventListeners();
 
 editButton.addEventListener("click", () => {
@@ -75,7 +75,7 @@ editButton.addEventListener("click", () => {
   editFormValidator.clearValidation();
 });
 
-addButton.addEventListener("click", function (){
+addButton.addEventListener("click", function () {
   popupPlace.open();
   formAddPlace.reset();
   addFormValidator.clearValidation();
