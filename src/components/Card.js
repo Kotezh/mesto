@@ -35,7 +35,7 @@ export default class Card {
     this._elementTrash.addEventListener("click", () => {
       this._removePlace();
     });
-    this._elementPopup.addEventListener("click", () => {
+    this._elementPopup.addEventListener("click", (evt) => {
       evt.preventDefault();
       this._handleCardClick({
         name: this._name,
