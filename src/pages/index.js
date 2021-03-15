@@ -28,7 +28,6 @@ const userInfo = new UserInfo({
 const handleCardClick = new PopupWithImage(".popup_type_image");
 
 const createPlace = function (data) {
-  console.log(data);
   return new Card(data, "#new-element", ({ name, link }) =>
     handleCardClick.open({ name, link })
   ).generateCard();
@@ -77,6 +76,5 @@ editButton.addEventListener("click", () => {
 
 addButton.addEventListener("click", function () {
   popupPlace.open();
-  formAddPlace.reset();
   addFormValidator.clearValidation();
 });
