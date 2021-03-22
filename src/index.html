@@ -15,7 +15,9 @@
     <main class="content">
       <section class="profile">
         <div class="profile__info">
-          <img class="avatar profile__avatar" src="./blocks/avatar/avatar.jpg" alt="Жак-Ив Кусто" />
+            <div class="profile__avatar">
+              <img class="avatar" src="./blocks/avatar/avatar.jpg" alt="Жак-Ив Кусто" />
+            </div>
           <div class="profile__text">
             <div class="profile__name-wrapper">
               <h1 class="profile__name">Жак-Ив Кусто</h1>
@@ -84,6 +86,39 @@
       </div>
     </section>
 
+        <!--Попап "Обновить аватар"-->
+
+        <section class="popup popup_type_avatar">
+          <div class="popup__container">
+            <h2 class="popup__title">Обновить аватар</h2>
+            <button type="reset" aria-label="Close" class="popup__close"></button>
+            <form novalidate class="popup__form popup__form_type_avatar" name="avatar-form" action="#" method="post">
+              <label class="popup__form-field">
+                <input name="link" id="place-link" type="url" class="popup__input popup__input_type_place-link"
+                  placeholder="Ссылка на картинку" required />
+                <span class="popup__error popup__error_visible" id="place-link-error"></span>
+              </label>
+              <button name="submit" type="submit" class="popup__btn-submit" value="Сохранить" disabled>
+                Сохранить
+              </button>
+            </form>
+          </div>
+        </section>
+
+        <!--Попап подтверждения удаления карточки-->
+
+        <section class="popup popup_type_confirm">
+          <div class="popup__container">
+            <h2 class="popup__title">Вы уверены?</h2>
+            <button type="reset" aria-label="Close" class="popup__close"></button>
+            <form novalidate class="popup__form" name="confirm-form" action="#" method="post">
+              <button name="submit" type="submit" class="popup__btn-submit" value="Да" disabled>
+                Да
+              </button>
+            </form>
+          </div>
+        </section>
+
     <!--Попап "Открыть картинку"-->
 
     <section class="popup popup_type_image">
@@ -106,7 +141,10 @@
       </div>
       <div class="element__field">
         <h2 class="element__title"></h2>
-        <button type="button" aria-label="Like" class="heart element__heart"></button>
+        <div class="element__likes">
+          <button type="button" aria-label="Like" class="heart element__heart"></button>
+          <span class="element__likes-number">0</span>
+        </div>
       </div>
       <button type="button" class="element__trash trash" aria-label="Trash"></button>
     </li>

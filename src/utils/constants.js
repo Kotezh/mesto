@@ -8,12 +8,20 @@ export const validateSettings = {
 };
 
 export const ESC_KEYCODE = 27;
+
+export const popupEditProfile = ".popup_type_edit-profile"
+export const popupAddNewPlace = ".popup_type_add-place"
+export const popupEditAvatar = ".popup_type_avatar"
+export const popupTypeConfirm = ".popup_type_confirm"
 export const editButton = document.querySelector(".profile__btn-edit");
 export const addButton = document.querySelector(".profile__btn-add");
+export const editAvatar = document.querySelector(".profile__avatar");
 export const nameInput = document.querySelector(".popup__input_type_name");
 export const jobInput = document.querySelector(".popup__input_type_job");
 export const formEditProfile = document.querySelector(
   ".popup__form_type_edit-profile"
 );
 export const formAddPlace = document.querySelector(".popup__form_type_add-place");
+export const formEditAvatar = document.querySelector(".popup__form_type_avatar");
+
 
