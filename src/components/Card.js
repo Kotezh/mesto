@@ -1,9 +1,11 @@
 export default class Card {
-  constructor( data, userId, placeTemplate, handleCardClick, handleLikeClick, 
+  constructor( data, userId, cardId, placeTemplate, handleCardClick, handleLikeClick, 
     handleDeleteIconClick) {
     this._data = data;
     this._name = data.name;
     this._link = data.link;
+    this._id = data._id;
+    this._cardId = cardId;
     this._placeTemplate = placeTemplate;
     this._handleCardClick = handleCardClick;
     this._handleLikeClick = handleLikeClick;
@@ -28,7 +30,7 @@ export default class Card {
   }
 
   getCardId(){
-    return this._userId
+    return this._cardId
   }
 
   countLikesNumber (data){
@@ -51,7 +53,6 @@ export default class Card {
 
   generateCard() {
     this._element = this._getTemplate();
-    this._setEventListeners();
     this._elementImage = this._element.querySelector(".element__image");
     this._elementTitle = this._element.querySelector(".element__title");
     this._likesNumber = this._element.querySelector(".element__likes-number");
@@ -62,6 +63,7 @@ export default class Card {
     this._elementTitle.textContent = this._name;
     this._setDeleteIcon();
     this.countLikesNumber(this._data);
+    this._setEventListeners();
     return this._element;
   }
 
@@ -70,9 +72,9 @@ export default class Card {
       this._handleLikeClick(evt);
     });
     this._elementTrash.addEventListener("click", () => {
-      this._handleDeleteIconClick(this._data._id, ()=>{
-        this.removePlace()
-      });
+      this._handleDeleteIconClick(
+        //this._data._id, ()=>{this.removePlace()}
+        );
     });
     this._elementImage.addEventListener("click", (evt) => {
       evt.preventDefault();

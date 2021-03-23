@@ -97,6 +97,7 @@ const createPlace = function (data) {
   return new Card(
     data,
     userInfo.getUserId(),
+    
     "#new-element",
     ({ name, link }) => handleCardClick.open({ name, link }),
     (id, confirmDel) => popupConfirm.open(id, confirmDel),
@@ -153,9 +154,8 @@ let defaultCardList;
 
 //Получение данных
 
-Promise.all([api.getUserInfo(), api.getInitialCards()])
+Promise.all([api.getInitialCards(), api.getUserInfo()])
   .then(([initialCards, { name, about, avatar, _id }]) => {
-    userInfo.setUserInfo(name, about, avatar, _id);
     defaultCardList = new Section(
       {
         items: initialCards,
@@ -168,11 +168,10 @@ Promise.all([api.getUserInfo(), api.getInitialCards()])
     );
     defaultCardList.renderItems();
     //defaultCardList.addItem(user);
+    userInfo.setUserInfo(name, about, avatar, _id);
   })
   .catch((err) => {
     console.log(err);
-    /*.catch((err) => {
-    console.log("Ошибка при загрузке карточек", err.message);*/
   });
 
 //Валидация
