@@ -78,7 +78,7 @@ const popupProfile = new PopupWithForm(popupEditProfile, (data) => {
 const popupAvatar = new PopupWithForm(popupEditAvatar, (data) => {
   loading(popupEditAvatar, true);
   api
-    .setNewAvatar({ avatar: data.link })
+    .setNewAvatar({ avatar: data.avatar })
     .then((res) => {
       userInfo.setUserInfo(res.name, res.about, res.avatar, res._id);
     })
@@ -97,7 +97,7 @@ const createPlace = function (data) {
   return new Card(
     data,
     userInfo.getUserId(),
-    
+    data._id,
     "#new-element",
     ({ name, link }) => handleCardClick.open({ name, link }),
     (id, confirmDel) => popupConfirm.open(id, confirmDel),
@@ -120,7 +120,7 @@ const popupPlace = new PopupWithForm(popupAddNewPlace, (data) => {
       popupAvatar.close();
       loading(popupEditAvatar, false);
     });
-  popupAddNewPlace.close();
+    popupPlace.close();
   loading(popupAddNewPlace, false);
 });
 
@@ -155,7 +155,7 @@ let defaultCardList;
 //Получение данных
 
 Promise.all([api.getInitialCards(), api.getUserInfo()])
-  .then(([initialCards, { name, about, avatar, _id }]) => {
+  .then(([initialCards, data]) => {
     defaultCardList = new Section(
       {
         items: initialCards,
@@ -168,7 +168,8 @@ Promise.all([api.getInitialCards(), api.getUserInfo()])
     );
     defaultCardList.renderItems();
     //defaultCardList.addItem(user);
-    userInfo.setUserInfo(name, about, avatar, _id);
+    userInfo.setUserInfo(data.name, data.about, data.avatar, data._id);
+    console.log();
   })
   .catch((err) => {
     console.log(err);

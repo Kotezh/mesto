@@ -11,36 +11,6 @@ export default class Api {
     return Promise.reject(new Error(`Ошибка: ${res.status}`));
   }
 
-  getInitialCards() {
-    return fetch(`${this.url}/cards`, {
-      headers:  this.headers,
-    })
-      .then((res) => this._parseResponse(res))
-      .catch((err) => Promise.reject(err));
-  }
-
-  addNewCard({ name, link }) {
-    return fetch(`${this.url}/cards`, {
-      method: "POST",
-      headers: this.headers,
-      body: JSON.stringify({
-        name,
-        link
-      }),
-    })
-      .then((res) => this._parseResponse(res))
-      .catch((msg) => Promise.reject(new Error(msg)));
-  }
-
-  deleteCard(id) {
-    return fetch(`${this.url}/cards/${id}`, {
-      method: "DELETE",
-      headers: this.headers,
-    })
-      .then((res) => this._parseResponse(res))
-      .catch((msg) => Promise.reject(new Error(msg)));
-  }
-
   getUserInfo() {
     return fetch(`${this.url}/users/me`, {
       headers: this.headers,
@@ -49,13 +19,21 @@ export default class Api {
       .catch((err) => Promise.reject(err));
   }
 
-  setUserInfo({ name, about }) {
+  getInitialCards() {
+    return fetch(`${this.url}/cards`, {
+      headers:  this.headers,
+    })
+      .then((res) => this._parseResponse(res))
+      .catch((err) => Promise.reject(err));
+  }
+  
+  setUserInfo(data) {
     return fetch(`${this.url}/users/me`, {
       method: "PATCH",
       headers: this.headers,
       body: JSON.stringify({
-        name,
-        about
+        name: data.name,
+        about: data.about
       }),
     })
       .then((res) => this._parseResponse(res))
@@ -74,8 +52,30 @@ export default class Api {
       .catch((msg) => Promise.reject(new Error(msg)));
   }
 
-  addLike(id) {
-    return fetch(`${this.url}/cards/likes/${id}`, {
+  addNewCard({ name, link }) {
+    return fetch(`${this.url}/cards`, {
+      method: "POST",
+      headers: this.headers,
+      body: JSON.stringify({
+        name,
+        link
+      }),
+    })
+      .then((res) => this._parseResponse(res))
+      .catch((msg) => Promise.reject(new Error(msg)));
+  }
+
+  deleteCard(_id) {
+    return fetch(`${this.url}/cards/${_id}`, {
+      method: "DELETE",
+      headers: this.headers
+    })
+      .then((res) => this._parseResponse(res))
+      .catch((msg) => Promise.reject(new Error(msg)));
+  }
+
+  addLike(_id) {
+    return fetch(`${this.url}/cards/likes/${_id}`, {
       method: "PUT",
       headers: this.headers
     })
@@ -83,8 +83,8 @@ export default class Api {
       .catch((msg) => Promise.reject(new Error(msg)));
   }
 
-  deleteLike(id) {
-    return fetch(`${this.url}/cards/likes/${id}`, {
+  deleteLike(_id) {
+    return fetch(`${this.url}/cards/likes/${_id}`, {
       method: "DELETE",
       headers: this.headers,
     })

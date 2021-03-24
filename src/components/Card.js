@@ -21,9 +21,9 @@ export default class Card {
     return place;
   }
 
-  _toggleLike() {
+  /*_toggleLike() {
     this._elementHeart.classList.toggle("heart_active");
-  }
+  }*/
 
   removePlace() {
     this._element.remove();
@@ -73,7 +73,7 @@ export default class Card {
     });
     this._elementTrash.addEventListener("click", () => {
       this._handleDeleteIconClick(
-        //this._data._id, ()=>{this.removePlace()}
+        this._id, ()=>{this.removePlace()}
         );
     });
     this._elementImage.addEventListener("click", (evt) => {
