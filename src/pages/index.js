@@ -36,13 +36,12 @@ const config = {
 const api = new Api(config);
 
 function loading(popup, isLoading) {
-  const submitButton = document
-    .querySelector(popup)
+  const submitButton = document.querySelector(popup)
     .querySelector(".popup__btn-submit");
   if (isLoading) {
-    submitButton.value = "Сохранение...";
+    submitButton.textContent = "Сохранение...";
   } else {
-    submitButton.value = "Сохранить";
+    submitButton.textContent = "Сохранить";
   }
 }
 
@@ -61,14 +60,14 @@ const getInfo = () => {
 
 const popupProfile = new PopupWithForm(popupEditProfile, () => {
   loading(popupEditProfile, true);
-  const userData ={
+  const userData = {
     name: nameInput.value,
-    about: jobInput.value
-  }
+    about: jobInput.value,
+  };
   api
     .setUserInfo(userData.name, userData.about)
     .then((res) => {
-      userInfo.setUserInfo(res.name, res.about, res.avatar, res._id);
+      userInfo.setUserInfo(res);
     })
     .catch((err) => {
       console.log(err);
@@ -81,13 +80,12 @@ const popupProfile = new PopupWithForm(popupEditProfile, () => {
 
 //Смена аватара
 const popupAvatar = new PopupWithForm(popupEditAvatar, () => {
- 
   editAvatar.src = avatarInput.value;
   loading(popupEditAvatar, true);
   api
     .setNewAvatar(avatarInput.value)
     .then((res) => {
-      userInfo.setUserInfo(res.name, res.about, res.avatar, res._id);
+      userInfo.setUserInfo(res);
     })
     .catch((err) => {
       console.log(err);
@@ -103,27 +101,29 @@ const popupAvatar = new PopupWithForm(popupEditAvatar, () => {
 const popupPlace = new PopupWithForm(popupAddNewPlace, (data) => {
   loading(popupAddNewPlace, true);
   api
-    .addNewCard( data.name, data.link)
+    .addNewCard(data.name, data.link)
     .then((res) => {
       const card = new Card(
         res,
         userInfo.getUserId(),
         res._id,
         "#new-element",
-        {handleCardClick: ({ name, link }) => handleCardClick.open({ name, link }),
-        handleLikeClick: () => {
-          const likedCard = card.isLiked()
-              const likedApi=
-              likedCard ?
-                  api.deleteLike(card.getCardId()):
-                  api.addLike(card.getCardId())
-          likedApi.then (data => {
-            card.setLikes(data.likes)
-            card.renderLikes();
-          })
-        },
-        handleDeleteIconClick:(card) => popupConfirm.open(card),
-        })
+        {
+          handleCardClick: ({ name, link }) =>
+            handleCardClick.open({ name, link }),
+          handleLikeClick: () => {
+            const likedCard = card.isLiked();
+            const likedApi = likedCard
+              ? api.deleteLike(card.getCardId())
+              : api.addLike(card.getCardId());
+            likedApi.then((data) => {
+              card.setLikes(data.likes);
+              card.renderLikes();
+            });
+          },
+          handleDeleteIconClick: () => popupConfirm.open(card),
+        }
+      );
       const newElement = card.generateCard();
       defaultCardList.addItem(newElement);
     })
@@ -141,7 +141,7 @@ const popupPlace = new PopupWithForm(popupAddNewPlace, (data) => {
 const delCard = (card) => {
   api
     .deleteCard(card.getCardId())
-    .then((card) => {
+    .then(() => {
       card.removePlace();
     })
     .catch((err) => {
@@ -155,11 +155,9 @@ const delCard = (card) => {
 //Подтверждение удаления
 
 const popupConfirm = new PopupWithSubmit(popupTypeConfirm, (evt, card) => {
-  evt.preventDefault()
+  evt.preventDefault();
   delCard(card);
 });
-
-popupConfirm.setEventListeners();
 
 //Карточки
 
@@ -167,8 +165,9 @@ let defaultCardList;
 
 //Получение данных
 
-Promise.all([api.getInitialCards(), api.getUserInfo()])
-  .then(([initialCards, data]) => {
+Promise.all([api.getUserInfo(), api.getInitialCards()])
+  .then(([data, initialCards]) => {
+    userInfo.setUserInfo(data.name, data.about, data.avatar, data._id);
     defaultCardList = new Section(
       {
         items: initialCards,
@@ -178,20 +177,24 @@ Promise.all([api.getInitialCards(), api.getUserInfo()])
             userInfo.getUserId(),
             place._id,
             "#new-element",
-            {handleCardClick:({ name, link }) => handleCardClick.open({ name, link }),
-            handleLikeClick: () => {
-              const likedCard = card.isLiked()
-                  const likedApi=
-                  likedCard ?
-                      api.deleteLike(card.getCardId()):
-                      api.addLike(card.getCardId())
-              likedApi.then (data => {
-                card.setLikes(data.likes)
-                card.renderLikes();
-              })
-            },
-            handleDeleteIconClick:() => {popupConfirm.open(card)},
-            })
+            {
+              handleCardClick: ({ name, link }) =>
+                handleCardClick.open({ name, link }),
+              handleLikeClick: () => {
+                const likedCard = card.isLiked();
+                const likedApi = likedCard
+                  ? api.deleteLike(card.getCardId())
+                  : api.addLike(card.getCardId());
+                likedApi.then((data) => {
+                  card.setLikes(data.likes);
+                  card.renderLikes();
+                });
+              },
+              handleDeleteIconClick: () => {
+                popupConfirm.open(card);
+              },
+            }
+          );
           const newElement = card.generateCard();
           defaultCardList.setItems(newElement);
         },
@@ -199,9 +202,6 @@ Promise.all([api.getInitialCards(), api.getUserInfo()])
       ".elements__list"
     );
     defaultCardList.renderItems();
-    //defaultCardList.addItem(user);
-    userInfo.setUserInfo(data.name, data.about, data.avatar, data._id);
-    console.log();
   })
   .catch((err) => {
     console.log(err);

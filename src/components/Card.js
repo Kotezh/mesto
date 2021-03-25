@@ -26,10 +26,6 @@ export default class Card {
     return place;
   }
 
-  /*_toggleLike() {
-    this._elementHeart.classList.toggle("heart_active");
-  }*/
-
   removePlace() {
     this._element.remove();
   }
@@ -65,8 +61,6 @@ export default class Card {
     if (this._data.owner._id !== this._userId) {
       this._elementTrash.remove();
     }
-    //if (this._data.likes.some(item => item._id === this._userId)) {
-    //this._elementHeart.classList.add("heart_active");
   }
 
   _setEventListeners() {
