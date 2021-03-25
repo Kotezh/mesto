@@ -67,7 +67,7 @@ const popupProfile = new PopupWithForm(popupEditProfile, () => {
   api
     .setUserInfo(userData.name, userData.about)
     .then((res) => {
-      userInfo.setUserInfo(res);
+      userInfo.setUserInfo(res.name, res.about, res.avatar, res._id);
     })
     .catch((err) => {
       console.log(err);
@@ -85,7 +85,7 @@ const popupAvatar = new PopupWithForm(popupEditAvatar, () => {
   api
     .setNewAvatar(avatarInput.value)
     .then((res) => {
-      userInfo.setUserInfo(res);
+      userInfo.setUserInfo(res.name, res.about, res.avatar, res._id);
     })
     .catch((err) => {
       console.log(err);
