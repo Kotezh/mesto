@@ -27,46 +27,46 @@ export default class Api {
       .catch((err) => Promise.reject(err));
   }
   
-  setUserInfo(data) {
+  setUserInfo(name, about) {
     return fetch(`${this.url}/users/me`, {
       method: "PATCH",
       headers: this.headers,
       body: JSON.stringify({
-        name: data.name,
-        about: data.about
+        name: name,
+        about: about
       }),
     })
       .then((res) => this._parseResponse(res))
       .catch((msg) => Promise.reject(new Error(msg)));
   }
 
-  setNewAvatar({ avatar }) {
+  setNewAvatar( avatar ) {
     return fetch(`${this.url}/users/me/avatar`, {
       method: "PATCH",
       headers: this.headers,
       body: JSON.stringify({
-        avatar,
+        avatar: avatar,
       }),
     })
       .then((res) => this._parseResponse(res))
       .catch((msg) => Promise.reject(new Error(msg)));
   }
 
-  addNewCard({ name, link }) {
+  addNewCard( name, link ) {
     return fetch(`${this.url}/cards`, {
       method: "POST",
       headers: this.headers,
       body: JSON.stringify({
-        name,
-        link
+        name: name,
+        link: link
       }),
     })
       .then((res) => this._parseResponse(res))
       .catch((msg) => Promise.reject(new Error(msg)));
   }
 
-  deleteCard(_id) {
-    return fetch(`${this.url}/cards/${_id}`, {
+  deleteCard(cardId) {
+    return fetch(`${this.url}/cards/${cardId}`, {
       method: "DELETE",
       headers: this.headers
     })
@@ -74,8 +74,8 @@ export default class Api {
       .catch((msg) => Promise.reject(new Error(msg)));
   }
 
-  addLike(_id) {
-    return fetch(`${this.url}/cards/likes/${_id}`, {
+  addLike(cardId) {
+    return fetch(`${this.url}/cards/likes/${cardId}`, {
       method: "PUT",
       headers: this.headers
     })
@@ -83,8 +83,8 @@ export default class Api {
       .catch((msg) => Promise.reject(new Error(msg)));
   }
 
-  deleteLike(_id) {
-    return fetch(`${this.url}/cards/likes/${_id}`, {
+  deleteLike(cardId) {
+    return fetch(`${this.url}/cards/likes/${cardId}`, {
       method: "DELETE",
       headers: this.headers,
     })

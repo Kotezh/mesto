@@ -18,6 +18,7 @@ export const addButton = document.querySelector(".profile__btn-add");
 export const editAvatar = document.querySelector(".profile__avatar");
 export const nameInput = document.querySelector(".popup__input_type_name");
 export const jobInput = document.querySelector(".popup__input_type_job");
+export const avatarInput = document.querySelector(".popup__input_type_avatar");
 export const formEditProfile = document.querySelector(
   ".popup__form_type_edit-profile"
 );

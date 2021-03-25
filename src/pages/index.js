@@ -13,6 +13,7 @@ import {
   addButton,
   nameInput,
   jobInput,
+  avatarInput,
   formEditProfile,
   formAddPlace,
   formEditAvatar,
@@ -58,10 +59,14 @@ const getInfo = () => {
   jobInput.value = about;
 };
 
-const popupProfile = new PopupWithForm(popupEditProfile, (data) => {
+const popupProfile = new PopupWithForm(popupEditProfile, () => {
   loading(popupEditProfile, true);
+  const userData ={
+    name: nameInput.value,
+    about: jobInput.value
+  }
   api
-    .setUserInfo({ name: data.name, about: data.about })
+    .setUserInfo(userData.name, userData.about)
     .then((res) => {
       userInfo.setUserInfo(res.name, res.about, res.avatar, res._id);
     })
@@ -75,10 +80,12 @@ const popupProfile = new PopupWithForm(popupEditProfile, (data) => {
 });
 
 //Смена аватара
-const popupAvatar = new PopupWithForm(popupEditAvatar, (data) => {
+const popupAvatar = new PopupWithForm(popupEditAvatar, () => {
+ 
+  editAvatar.src = avatarInput.value;
   loading(popupEditAvatar, true);
   api
-    .setNewAvatar({ avatar: data.avatar })
+    .setNewAvatar(avatarInput.value)
     .then((res) => {
       userInfo.setUserInfo(res.name, res.about, res.avatar, res._id);
     })
@@ -93,35 +100,40 @@ const popupAvatar = new PopupWithForm(popupEditAvatar, (data) => {
 
 //Новое место
 
-const createPlace = function (data) {
-  return new Card(
-    data,
-    userInfo.getUserId(),
-    data._id,
-    "#new-element",
-    ({ name, link }) => handleCardClick.open({ name, link }),
-    (id, confirmDel) => popupConfirm.open(id, confirmDel),
-    (id) => api.addLike(id)
-  ).generateCard();
-};
-
 const popupPlace = new PopupWithForm(popupAddNewPlace, (data) => {
   loading(popupAddNewPlace, true);
   api
-    .addNewCard({ name: data.name, link: data.link })
+    .addNewCard( data.name, data.link)
     .then((res) => {
-      const card = createPlace(res);
-      defaultCardList.addItem(card);
+      const card = new Card(
+        res,
+        userInfo.getUserId(),
+        res._id,
+        "#new-element",
+        {handleCardClick: ({ name, link }) => handleCardClick.open({ name, link }),
+        handleLikeClick: () => {
+          const likedCard = card.isLiked()
+              const likedApi=
+              likedCard ?
+                  api.deleteLike(card.getCardId()):
+                  api.addLike(card.getCardId())
+          likedApi.then (data => {
+            card.setLikes(data.likes)
+            card.renderLikes();
+          })
+        },
+        handleDeleteIconClick:(card) => popupConfirm.open(card),
+        })
+      const newElement = card.generateCard();
+      defaultCardList.addItem(newElement);
     })
     .catch((err) => {
       console.log(err);
     })
     .finally(() => {
-      popupAvatar.close();
-      loading(popupEditAvatar, false);
+      popupPlace.close();
+      loading(popupAddNewPlace, false);
     });
-    popupPlace.close();
-  loading(popupAddNewPlace, false);
 });
 
 // Удаление карточки
@@ -142,7 +154,8 @@ const delCard = (card) => {
 
 //Подтверждение удаления
 
-const popupConfirm = new PopupWithSubmit(popupTypeConfirm, (card) => {
+const popupConfirm = new PopupWithSubmit(popupTypeConfirm, (evt, card) => {
+  evt.preventDefault()
   delCard(card);
 });
 
@@ -160,8 +173,27 @@ Promise.all([api.getInitialCards(), api.getUserInfo()])
       {
         items: initialCards,
         renderer: (place) => {
-          const card = createPlace(place);
-          defaultCardList.setItems(card);
+          const card = new Card(
+            place,
+            userInfo.getUserId(),
+            place._id,
+            "#new-element",
+            {handleCardClick:({ name, link }) => handleCardClick.open({ name, link }),
+            handleLikeClick: () => {
+              const likedCard = card.isLiked()
+                  const likedApi=
+                  likedCard ?
+                      api.deleteLike(card.getCardId()):
+                      api.addLike(card.getCardId())
+              likedApi.then (data => {
+                card.setLikes(data.likes)
+                card.renderLikes();
+              })
+            },
+            handleDeleteIconClick:() => {popupConfirm.open(card)},
+            })
+          const newElement = card.generateCard();
+          defaultCardList.setItems(newElement);
         },
       },
       ".elements__list"
@@ -210,16 +242,3 @@ editAvatar.addEventListener("click", function () {
   popupAvatar.open();
   editAvatarFormValidator.clearValidation();
 });
-
-/*const defaultCardList = new Section(
-  {
-    items: initialCards,
-    renderer: (place) => {
-      const card = createPlace(place);
-      defaultCardList.setItems(card);
-    },
-  },
-  ".elements__list"
-);
-defaultCardList.renderItems();
-*/
