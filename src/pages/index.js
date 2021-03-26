@@ -36,12 +36,13 @@ const config = {
 const api = new Api(config);
 
 function loading(popup, isLoading) {
-  const submitButton = document.querySelector(popup)
+  const submitButton = document
+    .querySelector(popup)
     .querySelector(".popup__btn-submit");
   if (isLoading) {
     submitButton.textContent = "Сохранение...";
   } else {
-    submitButton.textContent = "Сохранить";
+    submitButton.textContent = submitButton.value;
   }
 }
 
@@ -68,12 +69,12 @@ const popupProfile = new PopupWithForm(popupEditProfile, () => {
     .setUserInfo(userData.name, userData.about)
     .then((res) => {
       userInfo.setUserInfo(res.name, res.about, res.avatar, res._id);
+      popupProfile.close();
     })
     .catch((err) => {
       console.log(err);
     })
     .finally(() => {
-      popupProfile.close();
       loading(popupEditProfile, false);
     });
 });
@@ -86,52 +87,57 @@ const popupAvatar = new PopupWithForm(popupEditAvatar, () => {
     .setNewAvatar(avatarInput.value)
     .then((res) => {
       userInfo.setUserInfo(res.name, res.about, res.avatar, res._id);
+      popupAvatar.close();
     })
     .catch((err) => {
       console.log(err);
     })
     .finally(() => {
-      popupAvatar.close();
       loading(popupEditAvatar, false);
     });
 });
 
 //Новое место
+//Создание карточки
+
+function createCard(data) {
+  const card = new Card(data, userInfo.getUserId(), data._id, "#new-element", {
+    handleCardClick: ({ name, link }) => handleCardClick.open({ name, link }),
+    handleLikeClick: () => {
+      const likedCard = card.isLiked();
+      const likedApi = likedCard
+        ? api.deleteLike(card.getCardId())
+        : api.addLike(card.getCardId());
+      likedApi
+        .then((data) => {
+          card.setLikes(data.likes);
+          card.renderLikes();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    handleDeleteIconClick: () => popupConfirm.open(card),
+  });
+  return card;
+}
+
+//Добавление новой карточки
 
 const popupPlace = new PopupWithForm(popupAddNewPlace, (data) => {
   loading(popupAddNewPlace, true);
   api
     .addNewCard(data.name, data.link)
     .then((res) => {
-      const card = new Card(
-        res,
-        userInfo.getUserId(),
-        res._id,
-        "#new-element",
-        {
-          handleCardClick: ({ name, link }) =>
-            handleCardClick.open({ name, link }),
-          handleLikeClick: () => {
-            const likedCard = card.isLiked();
-            const likedApi = likedCard
-              ? api.deleteLike(card.getCardId())
-              : api.addLike(card.getCardId());
-            likedApi.then((data) => {
-              card.setLikes(data.likes);
-              card.renderLikes();
-            });
-          },
-          handleDeleteIconClick: () => popupConfirm.open(card),
-        }
-      );
+      const card = createCard(res);
       const newElement = card.generateCard();
-      defaultCardList.addItem(newElement);
+      cardList.addItem(newElement);
+      popupPlace.close();
     })
     .catch((err) => {
       console.log(err);
     })
     .finally(() => {
-      popupPlace.close();
       loading(popupAddNewPlace, false);
     });
 });
@@ -143,12 +149,10 @@ const delCard = (card) => {
     .deleteCard(card.getCardId())
     .then(() => {
       card.removePlace();
+      popupConfirm.close();
     })
     .catch((err) => {
       console.log(err);
-    })
-    .finally(() => {
-      popupConfirm.close();
     });
 };
 
@@ -161,47 +165,23 @@ const popupConfirm = new PopupWithSubmit(popupTypeConfirm, (evt, card) => {
 
 //Карточки
 
-let defaultCardList;
+const cardList = new Section(
+  {
+    renderer: (place) => {
+      const card = createCard(place);
+      const newElement = card.generateCard();
+      cardList.setItems(newElement);
+    },
+  },
+  ".elements__list"
+);
 
 //Получение данных
 
 Promise.all([api.getUserInfo(), api.getInitialCards()])
-  .then(([data, initialCards]) => {
+  .then(([data, cards]) => {
     userInfo.setUserInfo(data.name, data.about, data.avatar, data._id);
-    defaultCardList = new Section(
-      {
-        items: initialCards,
-        renderer: (place) => {
-          const card = new Card(
-            place,
-            userInfo.getUserId(),
-            place._id,
-            "#new-element",
-            {
-              handleCardClick: ({ name, link }) =>
-                handleCardClick.open({ name, link }),
-              handleLikeClick: () => {
-                const likedCard = card.isLiked();
-                const likedApi = likedCard
-                  ? api.deleteLike(card.getCardId())
-                  : api.addLike(card.getCardId());
-                likedApi.then((data) => {
-                  card.setLikes(data.likes);
-                  card.renderLikes();
-                });
-              },
-              handleDeleteIconClick: () => {
-                popupConfirm.open(card);
-              },
-            }
-          );
-          const newElement = card.generateCard();
-          defaultCardList.setItems(newElement);
-        },
-      },
-      ".elements__list"
-    );
-    defaultCardList.renderItems();
+    cardList.renderItems(cards);
   })
   .catch((err) => {
     console.log(err);

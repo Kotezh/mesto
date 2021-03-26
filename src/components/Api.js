@@ -14,17 +14,13 @@ export default class Api {
   getUserInfo() {
     return fetch(`${this.url}/users/me`, {
       headers: this.headers,
-    })
-      .then((res) => this._parseResponse(res))
-      .catch((err) => Promise.reject(err));
+    }).then((res) => this._parseResponse(res));
   }
 
   getInitialCards() {
     return fetch(`${this.url}/cards`, {
       headers: this.headers,
-    })
-      .then((res) => this._parseResponse(res))
-      .catch((err) => Promise.reject(err));
+    }).then((res) => this._parseResponse(res));
   }
 
   setUserInfo(name, about) {
@@ -35,9 +31,7 @@ export default class Api {
         name: name,
         about: about,
       }),
-    })
-      .then((res) => this._parseResponse(res))
-      .catch((msg) => Promise.reject(new Error(msg)));
+    }).then((res) => this._parseResponse(res));
   }
 
   setNewAvatar(avatar) {
@@ -47,9 +41,7 @@ export default class Api {
       body: JSON.stringify({
         avatar: avatar,
       }),
-    })
-      .then((res) => this._parseResponse(res))
-      .catch((msg) => Promise.reject(new Error(msg)));
+    }).then((res) => this._parseResponse(res));
   }
 
   addNewCard(name, link) {
@@ -60,35 +52,27 @@ export default class Api {
         name: name,
         link: link,
       }),
-    })
-      .then((res) => this._parseResponse(res))
-      .catch((msg) => Promise.reject(new Error(msg)));
+    }).then((res) => this._parseResponse(res));
   }
 
   deleteCard(cardId) {
     return fetch(`${this.url}/cards/${cardId}`, {
       method: "DELETE",
       headers: this.headers,
-    })
-      .then((res) => this._parseResponse(res))
-      .catch((msg) => Promise.reject(new Error(msg)));
+    }).then((res) => this._parseResponse(res));
   }
 
   addLike(cardId) {
     return fetch(`${this.url}/cards/likes/${cardId}`, {
       method: "PUT",
       headers: this.headers,
-    })
-      .then((res) => this._parseResponse(res))
-      .catch((msg) => Promise.reject(new Error(msg)));
+    }).then((res) => this._parseResponse(res));
   }
 
   deleteLike(cardId) {
     return fetch(`${this.url}/cards/likes/${cardId}`, {
       method: "DELETE",
       headers: this.headers,
-    })
-      .then((res) => this._parseResponse(res))
-      .catch((msg) => Promise.reject(new Error(msg)));
+    }).then((res) => this._parseResponse(res));
   }
 }

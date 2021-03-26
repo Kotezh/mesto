@@ -40,7 +40,7 @@ export default class Card {
     });
   }
 
-  countLikesNumber() {
+  _statusLike() {
     if (this.isLiked(this._userId)) {
       this._elementHeart.classList.add("heart_active");
     } else {
@@ -50,7 +50,7 @@ export default class Card {
 
   renderLikes() {
     this._likesNumber.textContent = this._data.likes.length;
-    this.countLikesNumber(this._userId);
+    this._statusLike(this._userId);
   }
 
   setLikes(listLikes) {
