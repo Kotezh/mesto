@@ -11,7 +11,7 @@
 
  [Ссылка на проект на GitHub Pages](https://kotezh.github.io/mesto/index.html)
  
- _Стэк:_ `HTML/HTML5` `CSS/CSS3` `JavaScript` `React`
+ _Стэк:_ `HTML/HTML5` `CSS/CSS3` `JavaScript`
 
 ### Использованные технологии
 
